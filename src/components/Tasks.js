@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Button, Row, Col } from 'react-bootstrap';
+import { Modal, Container, Button, Row, Col } from 'react-bootstrap';
 
 function Tasks() {
     return (

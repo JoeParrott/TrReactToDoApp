@@ -2,9 +2,9 @@ import React from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import Calendar from 'react-calendar';
 import './Header.css';
+import '../App';
 
-
-function Header() {
+const Header = (props) => {
     return (
         <Container fluid>
             <Row className='align-items-centre'>
@@ -12,7 +12,7 @@ function Header() {
                     <h2 className='rounded text-light bg-secondary p-3 mt-2'>Joe's ToDo List</h2>
                     <Row className='p-5'>
                         <Col md={4}>
-                        <Button type="button" className="btn btn-dark">Add New Task</Button>
+                        <Button type="button" className="btn btn-dark" onClick={props.formShow}>Add New Task</Button>
                         </Col>
                         <Col md={4}>
                         <Button type="button" className="btn btn-dark">Change Timezone</Button>
@@ -22,7 +22,7 @@ function Header() {
                         </Col>
                     </Row>
                 </Col>
-                <Col md={6} className='p-2'>
+                <Col md={6} className='p-4'>
                     <Calendar />
                 </Col>
             </Row>
