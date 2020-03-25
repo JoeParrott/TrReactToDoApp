@@ -12,9 +12,38 @@ class App extends Component {
       formVisible: false,
       taskList: [],
       completedTasks: 0,
-      tasksDoneToday: 0
+      tasksDoneToday: 0,
+      newTask: '',
+      newTaskDescrip: '',
+      newTaskDue: '',
+      newTaskObject: {
+        task: '',
+        descrip: '',
+        datedue: ''
+      }
     };
   };
+
+  newTask(event) {
+    this.setState({
+      newTask: event.target.value
+    });
+    console.log(this.state.newTask)
+  };
+
+  newTaskDescrip(event) {
+    this.setState({
+      newTaskDescrip: event.target.value
+    });
+    console.log(this.state.newTaskDescrip)
+  };
+
+  newTaskDue(event) {
+    this.setState({
+      newTaskDue: event.target.value
+    })
+    console.log(this.state.newTaskDue)
+  }
 
   formHide = () => {
     this.setState({
@@ -33,10 +62,13 @@ class App extends Component {
       <div>
         <header>
           <Header
-          formShow={this.formShow.bind(this)} />
+            formShow={this.formShow.bind(this)} />
           <AddTask
+            newTask={this.newTask.bind(this)}
+            newTaskDescrip={this.newTaskDescrip.bind(this)}
+            newTaskDue={this.newTaskDue.bind(this)}
             show={this.state.formVisible}
-            onHide={this.formHide.bind(this)} />
+          />
         </header>
         <main>
           <Tasks />

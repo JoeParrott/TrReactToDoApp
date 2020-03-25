@@ -19,11 +19,12 @@ const AddTask = (props) => {
                         <Row>
                             <Col>
                             <p>Add task title here:</p>
-                            <textarea></textarea>
+                            <textarea onChange={props.newTask} id='newTask' name='newTask'>
+                            </textarea>
                             </Col>
                             <Col>
                             <p>Add task description here:</p>
-                            <textarea></textarea>
+                            <textarea onChange={props.newTaskDescrip} id='newTaskDescrip' name='newTaskDescrip'></textarea>
                             </Col>
                             <Col>
                             <p>Date due?</p>
@@ -31,7 +32,7 @@ const AddTask = (props) => {
                         </Row>
                         </Modal.Body>
                         <Modal.Footer>
-                            <Button>Add</Button>
+                            <Button onClick={props.taskAdded}>Add</Button>
                         </Modal.Footer>
                     </Modal>
                 </div>
