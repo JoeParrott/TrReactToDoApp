@@ -1,86 +1,59 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import Header from './components/Header';
 import Tasks from './components/Tasks';
 import Footer from './components/Footer';
 import AddTask from './components/AddTask';
 
-class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      formVisible: false,
-      taskList: [],
-      completedTasks: 0,
-      tasksDoneToday: 0,
-      newTask: '',
-      newTaskDescrip: '',
-      newTaskDue: '',
-      newTaskObject: {
-        task: '',
-        descrip: '',
-        datedue: ''
-      }
+function App() {
+
+  const [todoItem, updateTodoItem] = useState([
+    {
+      title: "Example title text",
+      descrip: "Example description text",
+      id: 1,
+      dueDate: "2020.04.01",
+      completed: false
+    }
+  ]);
+
+  const addNewTask = (title, descrip, date) => {
+    const newTask = {
+      title: title,
+      descrip: descrip,
+      id: '',
+      dueDate: date,
+      completed: false
     };
-  };
-
-  newTask(event) {
-    this.setState({
-      newTask: event.target.value
-    });
-    console.log(this.state.newTask)
-  };
-
-  newTaskDescrip(event) {
-    this.setState({
-      newTaskDescrip: event.target.value
-    });
-    console.log(this.state.newTaskDescrip)
-  };
-
-  newTaskDue(event) {
-    this.setState({
-      newTaskDue: event.target.value
-    })
-    console.log(this.state.newTaskDue)
+    const newTaskCopy = [...todoItem, newTask];
+    updateTodoItem(newTaskCopy);
   }
 
-  formHide = () => {
-    this.setState({
-      formVisible: false
-    });
-  };
-
-  formShow = () => {
-    this.setState({
-      formVisible: true
-    });
-  };
-
-  render() {
-    return (
-      <div>
-        <header>
-          <Header
-            formShow={this.formShow.bind(this)} />
-          <AddTask
-            newTask={this.newTask.bind(this)}
-            newTaskDescrip={this.newTaskDescrip.bind(this)}
-            newTaskDue={this.newTaskDue.bind(this)}
-            show={this.state.formVisible}
-          />
-        </header>
-        <main>
-          <Tasks />
-          <Tasks />
-          <Tasks />
-        </main>
-        <footer>
-          <Footer />
-        </footer>
-      </div>
-    );
-  }
+  return (
+    <div>
+      <header>
+        <Header
+        />
+        <AddTask
+        addNewTask={addNewTask}
+        />
+      </header>
+      <main>
+        {todoItem.map(todo => {
+          return (
+            <Tasks
+              key={todo.id}
+              todoTitle={todo.title}
+              todoDescrip={todo.descrip}
+              todoCompleted={todo.completed}
+              todoDate={todo.dueDate} />)
+        })};
+      </main>
+      <footer>
+        <Footer />
+      </footer>
+    </div>
+  );
 }
 
 export default App;

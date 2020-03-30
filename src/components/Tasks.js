@@ -1,15 +1,15 @@
 import React from 'react';
 import { Modal, Container, Button, Row, Col } from 'react-bootstrap';
 
-function Tasks() {
+function Tasks(props) {
     return (
         <Container fluid>
             <Row className='p-4'>
                 <Col md={3}>
-                    <p>Placeholder text about a tasks title</p>
+                    <p>{props.todoTitle}</p>
                 </Col>
                 <Col md={5}>
-                    <p>More Placeholder text about a tasks descrip.</p>
+                    <p>{props.todoDescrip}</p>
                 </Col>
                 <Col md={2}>
                 <Button className='btn btn-success'>Completed</Button>

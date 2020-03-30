@@ -1,10 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import Calendar from 'react-calendar';
 import './Header.css';
-import '../App';
+import AddTask from './AddTask'
 
 const Header = (props) => {
+
+    const [show, setShow] = useState(false);
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+
+
     return (
         <Container fluid>
             <Row className='align-items-centre'>
@@ -12,13 +18,14 @@ const Header = (props) => {
                     <h2 className='rounded text-light bg-secondary p-3 mt-2'>Joe's ToDo List</h2>
                     <Row className='p-5'>
                         <Col md={4}>
-                        <Button type="button" className="btn btn-dark" onClick={props.formShow}>Add New Task</Button>
+                            <AddTask show={show} setShow={setShow} handleClose={handleClose} handleShow={handleShow} />
+                            <Button type="button" className="btn btn-dark" onClick={() => setShow(true)}>Add New Task</Button>
                         </Col>
                         <Col md={4}>
-                        <Button type="button" className="btn btn-dark">Change Timezone</Button>
+                            <Button type="button" className="btn btn-dark">Change Timezone</Button>
                         </Col>
                         <Col md={4}>
-                        <Button type="button" className="btn btn-dark">Change Theme</Button>
+                            <Button type="button" className="btn btn-dark">Change Theme</Button>
                         </Col>
                     </Row>
                 </Col>
