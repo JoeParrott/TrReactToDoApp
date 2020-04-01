@@ -1,29 +1,37 @@
 import React, { useState } from 'react';
 import { Modal, Button, Row, Col } from 'react-bootstrap';
+import Datepicker from 'react-datepicker';
 
 const AddTask = (props) => {
 
-    const [newTask, setNewTask] = useState('');
+    const [newTaskTitle, setNewTaskTitle] = useState('');
     const [newTaskDescrip, setNewDescrip] = useState('');
-    const [completedTask, setCompleted] = useState(false);
-    const [newTaskDue, setDue] = useState('');
+    const [isOpen, setIsOpen] = useState(true)
+    const [newTaskDue, setDue] = useState(new Date());
 
     const handleNewTask = (event) => {
-        setNewTask(event.target.value)
+        setNewTaskTitle(event.target.value)
     };
 
     const handleTaskDescrip = (event) => {
         setNewDescrip(event.target.value)
     };
 
-    const handleDueDate = (event) => {
-        setDue(event.target.value)
+    const handleDueDate = (date) => {
+        setDue(date);
+        setIsOpen(false);
+        // needs calendar interaction
     };
 
-    const handleAddnewTask = () => {
-        props.addNewTask(newTask, newTaskDescrip, newTaskDue)
-    }
 
+    const handleClose = () => {
+        props.setShow(false);
+    };
+
+    const handleAddNewTask = () => {
+        props.storeTask(newTaskTitle, newTaskDescrip, newTaskDue);
+        handleClose();
+    };
 
     return (
         <div>
@@ -33,7 +41,7 @@ const AddTask = (props) => {
                 aria-labelledby="contained-modal-title-vcenter"
                 centered
             >
-                <Modal.Header closeButton>
+                <Modal.Header closeButton onClick={handleClose}>
                     <Modal.Title id="contained-modal-title-vcenter">
                         Adding New Task
                     </Modal.Title>
@@ -42,24 +50,33 @@ const AddTask = (props) => {
                     <Row>
                         <Col>
                             <p>Add task title here:</p>
-                            <textarea id='newTask' name='newTask'onChange={handleNewTask}>
+                            <textarea onChange={handleNewTask}>
                             </textarea>
                         </Col>
                         <Col>
                             <p>Add task description here:</p>
-                            <textarea id='newTaskDescrip' name='newTaskDescrip' onChange={handleTaskDescrip}></textarea>
+                            <textarea onChange={handleTaskDescrip}></textarea>
                         </Col>
                         <Col>
                             <p>Date due?</p>
-                            <textarea onChange={handleDueDate}></textarea>
+                            <Datepicker
+                                open={isOpen}
+                                showPopperArrow={false}
+                                selected={newTaskDue}
+                                onChange={handleDueDate}
+                                onInputClick={() => setIsOpen(true)}
+                            />
                         </Col>
                     </Row>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button onClick={handleAddnewTask}>Add</Button>
+                    <Button onClick={handleAddNewTask}>Add</Button>
                 </Modal.Footer>
             </Modal>
         </div>
     );
 };
 export default AddTask;
+
+//need to fix datepicker inside modal
+//need to resize textareas and datepicker, style properly

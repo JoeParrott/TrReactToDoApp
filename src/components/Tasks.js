@@ -1,7 +1,16 @@
 import React from 'react';
-import { Modal, Container, Button, Row, Col } from 'react-bootstrap';
+import { Container, Button, Row, Col } from 'react-bootstrap';
 
-function Tasks(props) {
+const Tasks = (props) => {
+
+    const handleDelete = () => {
+        props.markDelete(props.todoID);
+    };
+
+    const handleComplete = () => {
+        props.markComplete(props.todoID);
+    };
+
     return (
         <Container fluid>
             <Row className='p-4'>
@@ -12,10 +21,10 @@ function Tasks(props) {
                     <p>{props.todoDescrip}</p>
                 </Col>
                 <Col md={2}>
-                <Button className='btn btn-success'>Completed</Button>
+                    <Button className='btn btn-success' onClick={handleComplete}>Completed</Button>
                 </Col>
                 <Col md={2}>
-                <Button className='btn btn-danger'>Delete</Button>
+                    <Button className='btn btn-danger' onClick={handleDelete}>Delete</Button>
                 </Col>
             </Row>
         </Container>
@@ -23,3 +32,6 @@ function Tasks(props) {
 }
 
 export default Tasks;
+
+// need to add modal validation form on clicking buttons complete/delete and sync with app.js
+// need to learn how to limit number of visible entries and add dropdown or scroll functionality, whichever looks better
