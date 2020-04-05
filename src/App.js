@@ -4,6 +4,7 @@ import './App.css';
 import Header from './components/Header';
 import Tasks from './components/Tasks';
 import Footer from './components/Footer';
+import Validation from './components/Validation';
 
 function App() {
 
@@ -18,6 +19,8 @@ function App() {
   ]);
 
   const [completedTasks, updateCompletedTasks] = useState([]);
+  const [validationOpen, handleValidationOpen] = useState(false);
+  const [storedID, updateID] = useState();
 
   const addNewTask = (title, descrip, date) => {
     const newTask = {
@@ -29,7 +32,6 @@ function App() {
     };
     const newTaskCopy = [...todoItem, newTask];
     updateTodoItem(newTaskCopy);
-    console.log(newTask);
   };
 
   const deleteTask = (id) => {
@@ -43,17 +45,28 @@ function App() {
     const completedTask = todoItem.filter(todo => {
       return todo.id === id
     })
-    updateCompletedTasks(...completedTasks, completedTask)
+    const completedCopy = [...completedTasks, completedTask];
+    updateCompletedTasks(completedCopy)
 
     const taskArray = todoItem.filter(todo => {
       return todo.id !== id;
     });
     updateTodoItem(taskArray)
+    console.log(completedTasks)
   };
 
   const completedCount = () => {
     return completedTasks.length
-  }
+  };
+
+  const openValidatorModal = () => {
+    handleValidationOpen(true)
+    console.log()
+  };
+
+  const changeStoredID = (id) => {
+    updateID(id);
+  };
 
   return (
     <div>
@@ -74,8 +87,20 @@ function App() {
               todoID={todo.id}
               markComplete={completeTask}
               markDelete={deleteTask}
+              validationOpen={validationOpen}
+              handleValidationOpen={handleValidationOpen}
+              openValidatorModal={openValidatorModal}
+              setID={changeStoredID}
             />)
         })};
+        <Validation
+          validationOpen={validationOpen}
+          handleValidationOpen={handleValidationOpen}
+          openValidatorModal={openValidatorModal}
+          completeTask={completeTask}
+          deleteTask={deleteTask}
+          taskID={storedID}
+           />
       </main>
       <footer>
         <Footer

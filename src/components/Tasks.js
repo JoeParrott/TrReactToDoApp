@@ -3,6 +3,11 @@ import { Container, Button, Row, Col } from 'react-bootstrap';
 
 const Tasks = (props) => {
 
+   /* const handleContinue = () => {
+        props.handleValidationOpen(true);
+        if 
+    } */
+
     const handleDelete = () => {
         props.markDelete(props.todoID);
     };
@@ -10,6 +15,11 @@ const Tasks = (props) => {
     const handleComplete = () => {
         props.markComplete(props.todoID);
     };
+
+    const handleModalOpen = () => {
+        props.setID(props.todoID);
+        props.openValidatorModal();
+    }
 
     return (
         <Container fluid>
@@ -21,7 +31,7 @@ const Tasks = (props) => {
                     <p>{props.todoDescrip}</p>
                 </Col>
                 <Col md={2}>
-                    <Button className='btn btn-success' onClick={handleComplete}>Completed</Button>
+                    <Button className='btn btn-success' /*onClick={handleComplete}*/ onClick={handleModalOpen}>Completed</Button>
                 </Col>
                 <Col md={2}>
                     <Button className='btn btn-danger' onClick={handleDelete}>Delete</Button>
