@@ -20,7 +20,10 @@ function App() {
 
   const [completedTasks, updateCompletedTasks] = useState([]);
   const [validationOpen, handleValidationOpen] = useState(false);
+  const [continueClick, updateContinueClick] = useState(false);
   const [storedID, updateID] = useState();
+  const [deleteWasClicked, updateDeleteClick] = useState(false);
+  const [completeWasClicked, updateCompleteClick] = useState(false);
 
   const addNewTask = (title, descrip, date) => {
     const newTask = {
@@ -34,25 +37,48 @@ function App() {
     updateTodoItem(newTaskCopy);
   };
 
+  const updateContClick = () => {
+    updateContinueClick(true);
+  }
+
+  const updateClickedDelete = () => {
+    updateDeleteClick(true);
+  };
+
   const deleteTask = (id) => {
-    const deletedTaskArray = todoItem.filter(todo => {
-      return todo.id !== id;
-    });
-    updateTodoItem(deletedTaskArray);
+    if (deleteWasClicked === true && continueClick === true) {
+      const deletedTaskArray = todoItem.filter(todo => {
+        return todo.id !== id;
+      });
+      updateTodoItem(deletedTaskArray);
+      updateDeleteClick(false);
+      updateContinueClick(false);
+    };
+  };
+
+  const updateClickedComplete = () => {
+    updateCompleteClick(true);
   };
 
   const completeTask = (id) => {
-    const completedTask = todoItem.filter(todo => {
-      return todo.id === id
-    })
-    const completedCopy = [...completedTasks, completedTask];
-    updateCompletedTasks(completedCopy)
+    console.log(completeWasClicked);
+    console.log(storedID);
+    console.log(continueClick)
+    if (completeWasClicked === true && continueClick === true) {
+      const completedTask = todoItem.filter(todo => {
+        return todo.id === id
+      });
+      const completedCopy = [...completedTasks, completedTask];
+      updateCompletedTasks(completedCopy)
 
-    const taskArray = todoItem.filter(todo => {
-      return todo.id !== id;
-    });
-    updateTodoItem(taskArray)
-    console.log(completedTasks)
+      const taskArray = todoItem.filter(todo => {
+        return todo.id !== id;
+      });
+      updateTodoItem(taskArray);
+      console.log(completedTasks);
+      updateCompleteClick(false);
+      updateContinueClick(false);
+    };
   };
 
   const completedCount = () => {
@@ -91,6 +117,8 @@ function App() {
               handleValidationOpen={handleValidationOpen}
               openValidatorModal={openValidatorModal}
               setID={changeStoredID}
+              clickedComp={updateClickedComplete}
+              clickedDelete={updateClickedDelete}
             />)
         })};
         <Validation
@@ -100,7 +128,8 @@ function App() {
           completeTask={completeTask}
           deleteTask={deleteTask}
           taskID={storedID}
-           />
+          completeClick={updateContClick}
+        />
       </main>
       <footer>
         <Footer

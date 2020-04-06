@@ -3,10 +3,10 @@ import { Container, Button, Row, Col } from 'react-bootstrap';
 
 const Tasks = (props) => {
 
-   /* const handleContinue = () => {
-        props.handleValidationOpen(true);
-        if 
-    } */
+    /* const handleContinue = () => {
+         props.handleValidationOpen(true);
+         if 
+     } */
 
     const handleDelete = () => {
         props.markDelete(props.todoID);
@@ -16,10 +16,17 @@ const Tasks = (props) => {
         props.markComplete(props.todoID);
     };
 
-    const handleModalOpen = () => {
+    const handleModalOpenComplete = () => {
+        props.clickedComp()
         props.setID(props.todoID);
         props.openValidatorModal();
-    }
+    };
+
+    const handleModalOpenDelete = () => {
+        props.clickedDelete()
+        props.setID(props.todoID);
+        props.openValidatorModal();
+    };
 
     return (
         <Container fluid>
@@ -31,10 +38,10 @@ const Tasks = (props) => {
                     <p>{props.todoDescrip}</p>
                 </Col>
                 <Col md={2}>
-                    <Button className='btn btn-success' /*onClick={handleComplete}*/ onClick={handleModalOpen}>Completed</Button>
+                    <Button className='btn btn-success' /*onClick={handleComplete}*/ onClick={handleModalOpenComplete}>Completed</Button>
                 </Col>
                 <Col md={2}>
-                    <Button className='btn btn-danger' onClick={handleDelete}>Delete</Button>
+                    <Button className='btn btn-danger' onClick={handleModalOpenDelete}>Delete</Button>
                 </Col>
             </Row>
         </Container>
