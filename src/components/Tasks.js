@@ -50,5 +50,4 @@ const Tasks = (props) => {
 
 export default Tasks;
 
-// need to add modal validation form on clicking buttons complete/delete and sync with app.js
 // need to learn how to limit number of visible entries and add dropdown or scroll functionality, whichever looks better

@@ -8,11 +8,13 @@ const Validation = (props) => {
     }
 
     const handleCompleted = () => {
+        console.log("handle completed started")
         props.completeClick();
         //need a delay or a .then here to let code run in app
         props.completeTask(props.taskID);
         props.deleteTask(props.taskID)
         props.handleValidationOpen(false);
+        console.log("handle completed ended")
     }
 
 

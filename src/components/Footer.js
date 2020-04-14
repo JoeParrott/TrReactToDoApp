@@ -5,7 +5,7 @@ function Footer(props) {
     const completedTasks = props.completedCount;
     const counter = () => {
         if (completedTasks !== 0) {
-            return <h4 className='p-3 border rounded border-success border-2'>Well done completing {props.completedCount} tasks!</h4>
+            return <h4 className='p-3 border rounded border-success border-2'>Well done completing {completedTasks} tasks!</h4>
         }
         else {
             return <h4 className='p-3 border rounded border-success border-2'>Get to work you haven't done anything yet!</h4>

@@ -57,13 +57,17 @@ function App() {
   };
 
   const updateClickedComplete = () => {
+    console.log("update click started...")
     updateCompleteClick(true);
+    console.log("update click ended...")
+
   };
 
   const completeTask = (id) => {
-    console.log(completeWasClicked);
-    console.log(storedID);
-    console.log(continueClick)
+    console.log("**complete task started...")
+   // console.log(completeWasClicked);
+   // console.log(storedID);
+   // console.log(continueClick)
     if (completeWasClicked === true && continueClick === true) {
       const completedTask = todoItem.filter(todo => {
         return todo.id === id
@@ -78,7 +82,9 @@ function App() {
       console.log(completedTasks);
       updateCompleteClick(false);
       updateContinueClick(false);
+      
     };
+    console.log("**complete task ended...")
   };
 
   const completedCount = () => {
@@ -128,7 +134,7 @@ function App() {
           completeTask={completeTask}
           deleteTask={deleteTask}
           taskID={storedID}
-          completeClick={updateContClick}
+          completeClick={updateClickedComplete}
         />
       </main>
       <footer>
