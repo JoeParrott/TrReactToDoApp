@@ -6,7 +6,7 @@ const Tasks = (props) => {
     /* const handleContinue = () => {
          props.handleValidationOpen(true);
          if 
-     } */
+     } 
 
     const handleDelete = () => {
         props.markDelete(props.todoID);
@@ -14,7 +14,7 @@ const Tasks = (props) => {
 
     const handleComplete = () => {
         props.markComplete(props.todoID);
-    };
+    }; */
 
     const handleModalOpenComplete = () => {
         props.clickedComp()
@@ -34,14 +34,17 @@ const Tasks = (props) => {
                 <Col md={3}>
                     <p>{props.todoTitle}</p>
                 </Col>
-                <Col md={5}>
+                <Col md={6}>
                     <p>{props.todoDescrip}</p>
                 </Col>
-                <Col md={2}>
+                <Col md={1}>
                     <Button className='btn btn-success' /*onClick={handleComplete}*/ onClick={handleModalOpenComplete}>Completed</Button>
                 </Col>
-                <Col md={2}>
+                <Col md={1}>
                     <Button className='btn btn-danger' onClick={handleModalOpenDelete}>Delete</Button>
+                </Col>
+                <Col md={1}>
+                    <Button className='btn btn-primary'>Edit</Button>
                 </Col>
             </Row>
         </Container>

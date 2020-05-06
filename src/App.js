@@ -1,23 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import uuid from 'react-uuid';
 import './App.css';
 import Header from './components/Header';
 import Tasks from './components/Tasks';
 import Footer from './components/Footer';
 import Validation from './components/Validation';
+import axios from 'axios';
 
 function App() {
 
-  const [todoItem, updateTodoItem] = useState([
-    {
-      title: "Example title text",
-      descrip: "Example description text",
-      id: 1,
-      dueDate: "2020.04.01",
-      completed: false
-    }
-  ]);
-
+  const [todoItem, updateTodoItem] = useState([]);
   const [completedTasks, updateCompletedTasks] = useState([]);
   const [validationOpen, handleValidationOpen] = useState(false);
   const [continueClick, updateContinueClick] = useState(false);
@@ -25,16 +17,33 @@ function App() {
   const [deleteWasClicked, updateDeleteClick] = useState(false);
   const [completeWasClicked, updateCompleteClick] = useState(false);
 
+  useEffect(() => {
+    axios.get('https://xl8kch1w99.execute-api.eu-west-1.amazonaws.com/dev/tasks')
+      .then(response => {
+        console.log('Success!', response);
+        updateTodoItem(response.data);
+      })
+      .catch(err => {
+        console.log('error', err)
+      })
+  }, []);
+
   const addNewTask = (title, descrip, date) => {
     const newTask = {
-      title: title,
-      descrip: descrip,
-      id: uuid(),
-      dueDate: date,
-      completed: false
+      Title: title,
+      Description: descrip,
+      DueDate: date,
+      Completed: false
     };
-    const newTaskCopy = [...todoItem, newTask];
-    updateTodoItem(newTaskCopy);
+    axios.post('https://xl8kch1w99.execute-api.eu-west-1.amazonaws.com/dev/tasks', newTask)
+      .then(response => {
+        console.log('task sent', response);
+        const newTaskCopy = [...todoItem, newTask];
+        updateTodoItem(newTaskCopy);
+      })
+      .catch(err => {
+        console.log('error', err)
+      })
   };
 
   const updateContClick = () => {
@@ -47,44 +56,59 @@ function App() {
 
   const deleteTask = (id) => {
     if (deleteWasClicked === true && continueClick === true) {
-      const deletedTaskArray = todoItem.filter(todo => {
-        return todo.id !== id;
-      });
-      updateTodoItem(deletedTaskArray);
+      // setup delete here
+      axios.delete(`https://xl8kch1w99.execute-api.eu-west-1.amazonaws.com/dev/tasks/${id}`)
+        .then(response => {
+          console.log('successful deletion', response);
+          const deletedTaskArray = todoItem.filter(todo => {
+            return todo.TaskID !== id;
+          });
+          updateTodoItem(deletedTaskArray);
+        })
+        .catch(err => {
+          console.log('API error', err)
+        });
       updateDeleteClick(false);
       updateContinueClick(false);
     };
   };
 
   const updateClickedComplete = () => {
-    console.log("update click started...")
+    //console.log("update click started...")
     updateCompleteClick(true);
-    console.log("update click ended...")
+    //console.log("update click ended...")
 
   };
 
   const completeTask = (id) => {
     console.log("**complete task started...")
-   // console.log(completeWasClicked);
-   // console.log(storedID);
-   // console.log(continueClick)
+    // console.log(completeWasClicked);
+    // console.log(storedID);
+    // console.log(continueClick)
     if (completeWasClicked === true && continueClick === true) {
-      const completedTask = todoItem.filter(todo => {
-        return todo.id === id
-      });
-      const completedCopy = [...completedTasks, completedTask];
-      updateCompletedTasks(completedCopy)
+      const completedKey = { Completed: true }
+      axios.put(`https://xl8kch1w99.execute-api.eu-west-1.amazonaws.com/dev/tasks/${id}`, completedKey)
+        .then(response => {
+          console.log('completed sent', response);
+          const completedTask = todoItem.filter(todo => {
+            return todo.TaskID === id
+          });
+          const completedCopy = [...completedTasks, completedTask];
+          updateCompletedTasks(completedCopy)
 
-      const taskArray = todoItem.filter(todo => {
-        return todo.id !== id;
-      });
-      updateTodoItem(taskArray);
-      console.log(completedTasks);
-      updateCompleteClick(false);
-      updateContinueClick(false);
-      
+          const taskArray = todoItem.filter(todo => {
+            return todo.TaskID !== id;
+          });
+          updateTodoItem(taskArray);
+          console.log(completedTasks);
+          updateCompleteClick(false);
+          updateContinueClick(false);
+        })
+        .catch(err => {
+          console.log('error', err)
+        });
     };
-    console.log("**complete task ended...")
+    //console.log("**complete task ended...")
   };
 
   const completedCount = () => {
@@ -111,12 +135,12 @@ function App() {
         {todoItem.map(todo => {
           return (
             <Tasks
-              key={todo.id}
-              todoTitle={todo.title}
-              todoDescrip={todo.descrip}
-              todoCompleted={todo.completed}
-              todoDate={todo.dueDate}
-              todoID={todo.id}
+              key={todo.TaskID}
+              todoTitle={todo.Title}
+              todoDescrip={todo.Description}
+              todoCompleted={todo.Completed}
+              todoDate={todo.DueDate}
+              todoID={todo.TaskID}
               markComplete={completeTask}
               markDelete={deleteTask}
               validationOpen={validationOpen}
@@ -133,8 +157,8 @@ function App() {
           openValidatorModal={openValidatorModal}
           completeTask={completeTask}
           deleteTask={deleteTask}
-          taskID={storedID}
-          completeClick={updateClickedComplete}
+          TaskID={storedID}
+          updateContClick={updateContClick}
         />
       </main>
       <footer>

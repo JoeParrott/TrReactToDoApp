@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, Container, Row, Col, Button } from 'react-bootstrap';
+import { Modal, Button } from 'react-bootstrap';
 
 const Validation = (props) => {
 
@@ -9,12 +9,12 @@ const Validation = (props) => {
 
     const handleCompleted = () => {
         console.log("handle completed started")
-        props.completeClick();
+        props.updateContClick();
         //need a delay or a .then here to let code run in app
-        props.completeTask(props.taskID);
-        props.deleteTask(props.taskID)
+        props.completeTask(props.TaskID);
+        props.deleteTask(props.TaskID)
         props.handleValidationOpen(false);
-        console.log("handle completed ended")
+        //console.log("handle completed ended")
     }
 
 
